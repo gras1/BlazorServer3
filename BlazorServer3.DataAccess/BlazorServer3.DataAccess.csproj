@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorServer3.ClassLibrary\BlazorServer3.ClassLibrary.csproj" />
+    <ProjectReference Include="..\BlazorServer3.Database\BlazorServer3.Database.csproj" />
+  </ItemGroup>
+
+</Project>

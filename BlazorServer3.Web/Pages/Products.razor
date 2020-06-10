@@ -1,0 +1,54 @@
+﻿@page "/products"
+
+@using BlazorServer3.ClassLibrary
+@inject BlazorServer3.DataAccess.IProductCategoryData ProductCategoryData
+
+<style>
+    table.table tbody tr td img {
+        width: 100px;
+    }
+</style>
+
+<h1>Products</h1>
+
+<p>This component demonstrates fetching data from a database.</p>
+
+@if (productCategories == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Category Name</th>
+                <th>Price</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var productCategory in productCategories)
+            {
+            <tr>
+                <td>@productCategory.ProductId</td>
+                <td>@productCategory.Name</td>
+                <td>@productCategory.CategoryName</td>
+                <td>£@(string.Format("{0:0.00}", productCategory.Price))</td>
+                <td><img src="@productCategory.ImageFilePath" alt="@productCategory.Name image" /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ICollection<ProductCategory> productCategories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        productCategories = await ProductCategoryData.GetAllAsync();
+    }
+}
