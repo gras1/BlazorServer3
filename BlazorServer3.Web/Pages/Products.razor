@@ -1,4 +1,4 @@
-﻿@page "/products"
+@page "/products"
 
 @using BlazorServer3.ClassLibrary
 @inject BlazorServer3.DataAccess.IProductCategoryData ProductCategoryData
@@ -13,7 +13,7 @@
 
 <p>This component demonstrates fetching data from a database.</p>
 
-@if (productCategories == null)
+@if (_productCategories == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -30,13 +30,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var productCategory in productCategories)
+            @foreach (var productCategory in _productCategories)
             {
             <tr>
                 <td>@productCategory.ProductId</td>
                 <td>@productCategory.Name</td>
                 <td>@productCategory.CategoryName</td>
-                <td>£@(string.Format("{0:0.00}", productCategory.Price))</td>
+                <td>£@($"{productCategory.Price:0.00}")</td>
                 <td><img src="@productCategory.ImageFilePath" alt="@productCategory.Name image" /></td>
             </tr>
             }
@@ -45,10 +45,10 @@ else
 }
 
 @code {
-    private ICollection<ProductCategory> productCategories;
+    private ICollection<ProductCategory> _productCategories;
 
     protected override async Task OnInitializedAsync()
     {
-        productCategories = await ProductCategoryData.GetAllAsync();
+        _productCategories = await ProductCategoryData.GetAllAsync();
     }
 }
