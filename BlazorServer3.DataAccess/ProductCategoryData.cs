@@ -1,7 +1,6 @@
-﻿using BlazorServer3.ClassLibrary;
+using BlazorServer3.ClassLibrary;
 using BlazorServer3.Database;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +22,9 @@ namespace BlazorServer3.DataAccess
             var productsTask = _dbContext.Products.ToArrayAsync();
             await Task.WhenAll(categoriesTask, productsTask);
 
-            Database.Product[] products = productsTask.Result;
-            Database.Category[] categories = categoriesTask.Result;
-            ProductCategory[] productCategories = new ProductCategory[products.Length];
+            var products = productsTask.Result;
+            var categories = categoriesTask.Result;
+            var productCategories = new ProductCategory[products.Length];
             var counter = 0;
             foreach (var product in products)
             {
@@ -48,12 +47,12 @@ namespace BlazorServer3.DataAccess
             var productsTask = _dbContext.Products.ToArrayAsync();
             await Task.WhenAll(categoriesTask, productsTask);
 
-            Database.Product[] products = productsTask.Result;
+            var products = productsTask.Result;
             var searchedProducts = productsTask.Result.Where(p => p.Name.ToLower().Contains(searchTerm.Trim().ToLower()));
-            Database.Category[] categories = categoriesTask.Result;
+            var categories = categoriesTask.Result;
             var searchedCategories = categoriesTask.Result.Where(c => c.Name.ToLower().Contains(searchTerm.Trim().ToLower()));
 
-            List<ProductCategory> productCategories = new List<ProductCategory>();
+            var productCategories = new List<ProductCategory>();
 
             foreach (var searchedProduct in searchedProducts)
             {
@@ -92,10 +91,7 @@ namespace BlazorServer3.DataAccess
 
         ~ProductCategoryData()
         {
-            if (_dbContext != null)
-            {
-                _dbContext.Dispose();
-            }
+            _dbContext?.Dispose();
         }
     }
 }
