@@ -40,9 +40,10 @@ namespace BlazorServer3.Database
         {
             get
             {
-                string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-                string parentPath = Path.GetFullPath(Path.Combine(currentPath, ".."));
+                // ReSharper disable once AssignNullToNotNullAttribute
+                var parentPath = Path.GetFullPath(Path.Combine(currentPath, ".."));
 
                 if (parentPath.EndsWith("BlazorServer3"))
                 {
@@ -51,7 +52,7 @@ namespace BlazorServer3.Database
                 while (!parentPath.EndsWith("BlazorServer3"))
                 {
                     parentPath = Path.GetFullPath(Path.Combine(parentPath, ".."));
-                };
+                }
                 return parentPath + "/TestDatabase.db";
             }
         }
